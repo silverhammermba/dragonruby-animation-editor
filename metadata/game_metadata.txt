@@ -1,7 +1,7 @@
 # Remove the pound sign and leading space for the properties below before publishing your game.
 devid=silverhammermba
 devtitle=Maxwell Anselm
-gameid=dragonrubyanimationeditor
+gameid=dragonruby-animation-editor
 gametitle=DragonRuby Animation Editor
 version=0.0
 icon=metadata/icon.png
