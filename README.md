@@ -10,9 +10,13 @@ Two things:
 If you only need the tools, clone this and copy whatever files you need from
 `lib` into your game.
 
-If you also want the GUI, get a fresh copy of DragonRuby, delete the `mygame`
-directory and clone this repo as the new `mygame`. Then run the game. I will
-also make the GUI available for download on Itch.io in the near future.
+The GUI is available in your browser and as a download on [Itch.io][itch].
+
+[itch]: https://silverhammermba.itch.io/dragonruby-animation-editor
+
+Alternatively, you can run the GUI using this repo. Get a fresh copy of
+DragonRuby, delete the `mygame` directory and clone this repo as the new
+`mygame`. Then run the game.
 
 ## The tools
 
