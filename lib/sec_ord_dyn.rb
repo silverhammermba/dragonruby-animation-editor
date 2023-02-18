@@ -1,4 +1,4 @@
-require 'lib/vectorlike.rb'
+require 'lib/vectormath_2d.rb'
 
 # allows iterative solving of second-order dynamics to allow for direct control
 # of some property but with some physicality added to it
@@ -14,30 +14,38 @@ class SecOrdDyn
     @k2 = 1 / (4 * Math::PI * Math::PI * f * f)
     @k3 = r * zeta / (2 * Math::PI * f)
     # previous input position (used to estimate output velocity if update calls do not supply it)
-    @in_prev = i0.vcp
+    @i_prev = Vec2.new.set_from! i0
+    # input velocity in pixels per second
+    @i_vel = Vec2.new
     # output position
-    @out = i0.vcp
+    @o = @i_prev.dup
     # output velocity
-    @out_vel = [0, 0]
+    @o_vel = Vec2.new
   end
 
   # frame_rate should be args.gtk.current_framerate unless you're not doing this real-time
   # i is current input position
-  # id is input velocity (in pixels per second). if nil, this is estimated from previously supplied input position
-  def update frame_rate, i, id = nil
-    # if no input velocity supplied, estimate it from last update
-    id ||= i.vsub(@in_prev).vmul(frame_rate)
-    @in_prev = i.vcp
+  # i_vel is input velocity (in pixels per second). if nil, this is estimated from previously supplied input position
+  def update frame_rate, i, i_vel = nil
+    if i_vel
+      @i_vel.set_from! i_vel
+    else # if no input velocity supplied, estimate it from last update
+      @i_vel.sub_from!(i, @i_prev).mul_scalar!(frame_rate)
+    end
+    @i_prev.set_from! i
 
     # easy part: get new output position using previously calculated output velocity
-    @out = @out.vadd(@out_vel.vdiv(frame_rate.to_f))
+    @o.add! @o_vel.div_scalar(frame_rate.to_f)
 
     # restrict k2 to avoid jitter and accumulating errors
     k2_stable = [@k2, (1 + frame_rate * @k1) / (2 * frame_rate * frame_rate), @k1 / frame_rate].max
     # hard part: get new output velocity by solving the system's equation for acceleration
-    @out_vel = @out_vel.vadd(i.vadd(id.vmul(@k3)).vsub(@out).vsub(@out_vel.vmul(@k1)).vdiv(frame_rate * k2_stable))
+    # first compute change in velocity (overwriting @i_vel to avoid allocations)
+    @i_vel.mul_scalar!(@k3).add!(i).sub!(@o).sub_mul_scalar!(@o_vel, @k1).div_scalar!(frame_rate * k2_stable)
+    # add to output velocity
+    @o_vel.add!(@i_vel)
 
     # new output position
-    @out.vcp
+    @o
   end
 end
