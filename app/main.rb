@@ -92,7 +92,7 @@ def tick_bezier args
 
   args.state.copy_opacity ||= 0
 
-  if args.inputs.keyboard.ctrl_c
+  if args.inputs.keyboard.ctrl_c && args.state.clipboard_support
     Clipboard.copy args.state.params
     args.state.copy_anim = eease(1.seconds, Bezier.ease(0.31, 0.52, 0.70, 0.95)) { |t|
       args.state.copy_opacity = 255 * (1 - t)
@@ -179,7 +179,7 @@ def tick_bezier args
   copy_color = [0, 0, 0, args.state.copy_opacity]
   args.outputs.labels << [label_x, label_y + 40, "Copied!"] + copy_color
 
-  args.outputs.labels << [label_x, label_y, "Ctrl-C to copy " + args.state.params]
+  args.outputs.labels << [label_x, label_y, (args.state.clipboard_support ? "Ctrl-C to copy " : "") + args.state.params]
 end
 
 def tick_dynamics args
@@ -290,8 +290,8 @@ def tick_dynamics args
 
   args.state.copy_opacity ||= 0
 
-  if args.inputs.keyboard.ctrl_c
-    Clipboard.copy(params)
+  if args.inputs.keyboard.ctrl_c && args.state.clipboard_support
+    Clipboard.copy params
     args.state.copy_anim = eease(1.seconds, Bezier.ease(0.31, 0.52, 0.70, 0.95)) { |t|
       args.state.copy_opacity = 255 * (1 - t)
     }
@@ -346,10 +346,19 @@ def tick_dynamics args
   end
   copy_color = [0, 0, 0, args.state.copy_opacity]
   args.outputs.labels << [80, 140, "Copied!"] + copy_color
-  args.outputs.labels << [80, 100, "Ctrl-C to copy " + params]
+  args.outputs.labels << [80, 100, (args.state.clipboard_support ? "Ctrl-C to copy " : "") + params]
 end
 
 def tick args
+  if args.state.clipboard_support.nil?
+    begin
+      Clipboard.copy ''
+      args.state.clipboard_support = true
+    rescue
+      args.state.clipboard_support = false
+    end
+  end
+
   args.state.mode ||= :bezier
 
   if args.inputs.keyboard.key_down.escape
