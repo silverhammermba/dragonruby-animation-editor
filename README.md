@@ -10,10 +10,9 @@ Two things:
 If you only need the tools, clone this and copy whatever files you need from
 `lib` into your game.
 
-If you also want the GUI, get a fresh copy of DragonRuby and copy the entire
-contents of this repo into the `mygame` directory, overwriting `app/main.rb`.
-Then run the game. I will also make the GUI available for download on Itch.io in
-the near future.
+If you also want the GUI, get a fresh copy of DragonRuby, delete the `mygame`
+directory and clone this repo as the new `mygame`. Then run the game. I will
+also make the GUI available for download on Itch.io in the near future.
 
 ## The tools
 
