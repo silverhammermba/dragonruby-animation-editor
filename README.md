@@ -78,12 +78,10 @@ See this [video][dyn] for more info.
 
 [dyn]: https://www.youtube.com/watch?v=KPoeNZZ6H4s
 
-### VectorLike
+### Vector Math 2D
 
-This module can be included to add 2D vector math operations to any class that
-responds to the `x` and `y` methods. By default I include it in `Array`
-(DragonRuby treats two-element arrays as vectors) and `Mouse` but it can
-probably be included in a bunch of other stuff too.
+A slight modification of https://github.com/xenobrain/ruby_vectormath, used to
+make the second-order system updated free of memory allocations.
 
 ### Clipboard
 
