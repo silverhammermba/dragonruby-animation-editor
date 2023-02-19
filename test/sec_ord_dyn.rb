@@ -1,6 +1,6 @@
 require 'lib/sec_ord_dyn.rb'
 
-# ./dragonruby mygame --test app/test_sec_ord_dyn.rb
+# ./dragonruby mygame --test test/sec_ord_dyn.rb
 
 class GTK::Assert
   def approx! actual, expected
