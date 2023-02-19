@@ -14,13 +14,13 @@ class SecOrdDyn
     @k2 = 1 / (4 * Math::PI * Math::PI * f * f)
     @k3 = r * zeta / (2 * Math::PI * f)
     # previous input position (used to estimate output velocity if update calls do not supply it)
-    @i_prev = Vec2.new.set_from! i0
+    @i_prev = RVec2.new.set_from! i0
     # input velocity in pixels per second
-    @i_vel = Vec2.new
+    @i_vel = RVec2.new
     # output position
     @o = @i_prev.dup
     # output velocity
-    @o_vel = Vec2.new
+    @o_vel = RVec2.new
   end
 
   # frame_rate should be args.gtk.current_framerate unless you're not doing this real-time

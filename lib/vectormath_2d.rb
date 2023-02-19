@@ -1,7 +1,7 @@
 # from https://github.com/xenobrain/ruby_vectormath commit 0ed477a on Dec 31, 2022
 DEG2RAD = Math::PI / 180.0
 
-class Vec2
+class RVec2
   attr_accessor(:x, :y)
 
   def initialize(x = 0.0, y = 0.0)
@@ -65,7 +65,7 @@ class Vec2
 
   def sub_from!(vec2_lhs, vec2_rhs)
     @x = vec2_lhs.x - vec2_rhs.x
-    @y = vec2_lhs.y - vec2_lhs.y
+    @y = vec2_lhs.y - vec2_rhs.y
     self
   end
 
@@ -451,7 +451,7 @@ class Vec2
   alias magnitude length
   alias magnitude_sq length_sq
 
-  ZERO = Vec2.new(0.0, 0.0).freeze
+  ZERO = RVec2.new(0.0, 0.0).freeze
 end
 
 class Mat2x2
