@@ -1,4 +1,5 @@
 # from https://github.com/xenobrain/ruby_vectormath commit 0ed477a on Dec 31, 2022
+# with modifications
 DEG2RAD = Math::PI / 180.0
 
 class RVec2
@@ -7,6 +8,14 @@ class RVec2
   def initialize(x = 0.0, y = 0.0)
     @x = x
     @y = y
+  end
+
+  def inspect
+    "RVec2#{to_s}"
+  end
+
+  def to_s
+    "(#{@x},#{@y})"
   end
 
   def to_a
