@@ -63,3 +63,39 @@ def test_oscillate args, assert
   7.times { tick[] }
   assert.approx! y, 1.010345822887281
 end
+
+# get i within w/2 of t, shifting by multiples of w
+# (used in the wrapping logic of SecOrdDyn)
+def close_to i, t, w
+  if w != 0
+    s = (t - i).sign
+    return i + s * w * ((s * (t - i) - w / 2.0) / w).ceil
+  end
+  i
+end
+
+def test_close args, assert
+  assert.equal! close_to(0, 5, 2), 4
+  assert.equal! close_to(0.5, 5, 2), 4.5
+  assert.equal! close_to(1, 5, 2), 5
+  assert.equal! close_to(1.5, 5, 2), 5.5
+  assert.equal! close_to(2, 5, 2), 4
+
+  assert.equal! close_to(10, 5, 2), 6
+  assert.equal! close_to(9.5, 5, 2), 5.5
+  assert.equal! close_to(9, 5, 2), 5
+  assert.equal! close_to(8.5, 5, 2), 4.5
+  assert.equal! close_to(8, 5, 2), 6
+
+  assert.equal! close_to(-0, -5, 2), -4
+  assert.equal! close_to(-0.5, -5, 2), -4.5
+  assert.equal! close_to(-1, -5, 2), -5
+  assert.equal! close_to(-1.5, -5, 2), -5.5
+  assert.equal! close_to(-2, -5, 2), -4
+
+  assert.equal! close_to(-10, -5, 2), -6
+  assert.equal! close_to(-9.5, -5, 2), -5.5
+  assert.equal! close_to(-9, -5, 2), -5
+  assert.equal! close_to(-8.5, -5, 2), -4.5
+  assert.equal! close_to(-8, -5, 2), -6
+end

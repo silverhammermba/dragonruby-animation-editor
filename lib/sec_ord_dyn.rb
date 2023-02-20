@@ -51,23 +51,14 @@ class SecOrdDyn
   # i_vel is input velocity (in pixels per second). if nil, this is estimated from previously supplied input position
   def update frame_rate, i, i_vel = nil
     @i.set_from! i
-    # if wrapping, update @i to be as close as possible to @i_prev
-    # TODO: this is very inefficient, probably can be made linear?
+    # if wrapping, shift @i by multiples of @wrap to be as close as possible to @i_prev
     if @wrap.x != 0
-      while @i.x < @i_prev.x - @wrap.x / 2.0
-        @i.x += @wrap.x
-      end
-      while @i.x > @i_prev.x + @wrap.x / 2.0
-        @i.x -= @wrap.x
-      end
+      s = (@i_prev.x - @i.x).sign
+      @i.x += s * @wrap.x * ((s * (@i_prev.x - @i.x) - @wrap.x / 2.0) / @wrap.x).ceil
     end
     if @wrap.y != 0
-      while @i.y < @i_prev.y - @wrap.y / 2.0
-        @i.y += @wrap.y
-      end
-      while @i.y > @i_prev.y + @wrap.y / 2.0
-        @i.y -= @wrap.y
-      end
+      s = (@i_prev.y - @i.y).sign
+      @i.y += s * @wrap.y * ((s * (@i_prev.y - @i.y) - @wrap.y / 2.0) / @wrap.y).ceil
     end
 
     if i_vel
