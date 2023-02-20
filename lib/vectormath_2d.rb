@@ -168,9 +168,25 @@ class RVec2
     self
   end
 
+  def add_mul_scalar!(vec2_rhs, scalar_rhs)
+    @x += vec2_rhs.x * scalar_rhs
+    @y += vec2_rhs.y * scalar_rhs
+    self
+  end
+
   def sub_mul_scalar!(vec2_rhs, scalar_rhs)
     @x -= vec2_rhs.x * scalar_rhs
     @y -= vec2_rhs.y * scalar_rhs
+    self
+  end
+
+  def mod!(vec2_rhs)
+    if vec2_rhs.x != 0
+      @x %= vec2_rhs.x
+    end
+    if vec2_rhs.y != 0
+      @y %= vec2_rhs.y
+    end
     self
   end
 
@@ -308,7 +324,7 @@ class RVec2
     lhs_y = @y
     rhs_x = vec2_rhs.x
     rhs_y = vec2_rhs.y
-    
+
     # Normalize the vectors
     length_sq = lhs_x * lhs_x + lhs_y * lhs_y
     rhs_length_sq = rhs_x * rhs_x + rhs_y * rhs_y
@@ -325,7 +341,7 @@ class RVec2
 
     omega = Math.acos(lhs_x * rhs_x + lhs_y * rhs_y)
     inverse_denominator = 1.0 / Math.sin(omega)
-    
+
     a = Math.sin((1.0 - scalar_t) * omega) * inverse_denominator
     b = Math.sin(scalar_t * omega) * inverse_denominator
 
@@ -340,7 +356,7 @@ class RVec2
     lhs_y = vec2_lhs.y
     rhs_x = vec2_rhs.x
     rhs_y = vec2_rhs.y
-    
+
     # Normalize the vectors
     length_sq = lhs_x * lhs_x + lhs_y * lhs_y
     rhs_length_sq = rhs_x * rhs_x + rhs_y * rhs_y
@@ -357,7 +373,7 @@ class RVec2
 
     omega = Math.acos(lhs_x * rhs_x + lhs_y * rhs_y)
     inverse_denominator = 1.0 / Math.sin(omega)
-    
+
     a = Math.sin((1.0 - scalar_t) * omega) * inverse_denominator
     b = Math.sin(scalar_t * omega) * inverse_denominator
 
@@ -375,7 +391,7 @@ class RVec2
   end
 
   def length
-    Math.sqrt(@x * @x + @y * @y)
+    Math.sqrt(length_sq)
   end
 
   def distance_sq(vec2_rhs)
