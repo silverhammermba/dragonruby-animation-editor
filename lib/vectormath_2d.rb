@@ -10,12 +10,16 @@ class RVec2
     @y = y
   end
 
+  def serialize
+    {x: @x, y: @y}
+  end
+
   def inspect
-    "RVec2#{to_s}"
+    serialize.to_s
   end
 
   def to_s
-    "(#{@x},#{@y})"
+    serialize.to_s
   end
 
   def to_a
