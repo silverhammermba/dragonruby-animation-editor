@@ -387,7 +387,7 @@ class RVec2
   end
 
   def slerp(vec2_rhs, scalar_t)
-    dup.slerp(vec2_rhs, scalar_t)
+    dup.slerp!(vec2_rhs, scalar_t)
   end
 
   def length_sq
